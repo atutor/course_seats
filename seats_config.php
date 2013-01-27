@@ -127,7 +127,7 @@ if(mysql_num_rows($result) != 0 ){
 	$service_site = 1;
 }
 
-$sql = "SELECT * FROM ".TABLE_PREFIX."modules WHERE dir_name ='payments'";
+$sql = "SELECT * FROM ".TABLE_PREFIX."modules WHERE dir_name ='payments' && status ='2'";
 $result = mysql_query($sql, $db);
 if(mysql_num_rows($result) != 0 ){
 	//This is a Service site 
