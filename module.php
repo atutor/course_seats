@@ -15,37 +15,30 @@ if (!isset($this) || (isset($this) && (strtolower(get_class($this)) != 'module')
 define('AT_PRIV_COURSE_SEATS',       $this->getPrivilege());
 define('AT_ADMIN_PRIV_COURSE_SEATS', $this->getAdminPrivilege());
 
-
 /*******
  * add the admin pages when needed.
  */
 if (admin_authenticate(AT_ADMIN_PRIV_COURSE_SEATS, TRUE) || admin_authenticate(AT_ADMIN_PRIV_ADMIN, TRUE)) {
-	global $_config;
+	global $_config, $db;
 	// replace the create course tab for admin, removed by "disable_create" config setting
 	// remove the following lines if installed on atsp
 	if($_config['disable_create'] == "1"){
-		echo $service_sites;
-	$sql = "SELECT * FROM ".TABLE_PREFIX."modules WHERE dir_name ='_core/services' && status ='2'";
-	$result = @mysql_query($sql, $db);
-	if(@mysql_num_rows($result) != 0 ){
-	    //This is a Service site 
-		$service_site = 1;
+		$sql = "SELECT * FROM ".TABLE_PREFIX."modules WHERE dir_name ='_core/services' && status ='2'";
+		$result = mysql_query($sql, $db);
+		if(mysql_num_rows($result)){
+		    //This is a Service site 
+			$service_site = 1;
+		}
 	}
-	}
-	//echo "something".$service_sites;
+
 	if($service_site){
-		//$this->_pages['mods/_core/services/admin/create_course.php']['title_var'] = '';
-		//$this->_pages['mods/_core/services/admin/create_course.php']['parent']    = 'mods/_core/courses/admin/courses.php';
-		//$this->_pages['mods/_core/services/admin/create_course.php']['guide']     = 'admin/?p=creating_courses.php';	
-		//$this->_pages['mods/_core/courses/admin/courses.php']['children']  = array('mods/_core/services/admin/create_course.php');
-		$this->_pages['mods/_core/courses/admin/create_course.php']['title_var'] = '';
+		// do something
 	} else{
 		$this->_pages['mods/_core/courses/admin/create_course.php']['title_var'] = 'create_course';
 		$this->_pages['mods/_core/courses/admin/create_course.php']['parent']    = 'mods/_core/courses/admin/courses.php';
 		$this->_pages['mods/_core/courses/admin/create_course.php']['guide']     = 'admin/?p=creating_courses.php';	
 		$this->_pages['mods/_core/courses/admin/courses.php']['children']  = array('mods/_core/courses/admin/create_course.php');
 	} 
-	
 
 	//If Payments is installed, add tab to payment manager
 	if($_config['ec_uri']){
