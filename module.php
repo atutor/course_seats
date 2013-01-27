@@ -29,16 +29,17 @@ if (admin_authenticate(AT_ADMIN_PRIV_COURSE_SEATS, TRUE) || admin_authenticate(A
 		    //This is a Service site 
 			$service_site = 1;
 		}
-	}
-
-	if($service_site){
+		if($service_site){
 		// do something
-	} else{
+		} else{
 		$this->_pages['mods/_core/courses/admin/create_course.php']['title_var'] = 'create_course';
 		$this->_pages['mods/_core/courses/admin/create_course.php']['parent']    = 'mods/_core/courses/admin/courses.php';
 		$this->_pages['mods/_core/courses/admin/create_course.php']['guide']     = 'admin/?p=creating_courses.php';	
 		$this->_pages['mods/_core/courses/admin/courses.php']['children']  = array('mods/_core/courses/admin/create_course.php');
-	} 
+		} 
+	}
+
+
 
 	//If Payments is installed, add tab to payment manager
 	if($_config['ec_uri']){
