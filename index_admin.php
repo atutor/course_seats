@@ -34,7 +34,10 @@ if(isset($_POST['seats'])){
 		$msg->addError(array('JUST_NUMBERS', $course_title['title']));
 	}
 }
-
+if(!$_POST['course_id']){
+		$msg->addError('NO_COURSE_SELECTED');
+		$error = "1";
+}
 if(isset($seats) && $seats != 0){
 	$sql = "REPLACE into ".TABLE_PREFIX."course_seats (`course_id`, `seats`) VALUES ('$course_id', '$seats')";
 	if($result = mysql_query($sql,$db)){
