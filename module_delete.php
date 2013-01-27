@@ -6,7 +6,7 @@
  * $course is the ID of the course to delete.
  */
 
-function hello_world_delete($course) {
+function course_seats($course) {
 	global $db;
 
 	// delete hello_world course table entries
