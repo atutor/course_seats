@@ -1,0 +1,22 @@
+ATutor Course Seats Module
+==========================
+This module allows ATutor administrators to set enrollment limits on courses. It inserts a Course Seats tab in the admin's Courses submenu where course seats are managed, and when integrate with the Payments Module, insert a Course Seats tab in the intructor's enrollment submenu, where additional course seats can be purchased. 
+
+To add or modify a seat limit, choose the course and enter a integer from 1 to 9999. 
+
+If a course limit is not set, or set to 0 (zero) for a course, no limit is enforced for that course. (default)
+
+The "Not Enrolled" tab in the instructor's enrolment manager is disabled when a seat limit is set for a course. 
+
+The "Import Course List" and "Create Course List" features allow only new students up to the seat limit. 
+
+The Instructor's "Create Course" tab is disabled in My Courses. This means the administrator must create courses. Instructors cannot create courses when the Course Seats module is enabled.
+
+Course Seats Options
+====================
+When the Payments module is installed, additional options are available to set the price for each additional seat, and to enable/disable the instructor's Create Course tab. If the tab is enabled the default number of seats available for newly created courses can be set.
+
+Issues
+======
+Adding from the "Not Enrolled" list in the Enrollment Manager not possible currently without core code adjustments, beyond the scope of this version of the module.
+
