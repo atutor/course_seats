@@ -48,7 +48,19 @@ if($_POST['save']){
 			$error = "1";		
 		}
 	}
-
+	if($_POST['disable_create'] &&  $_POST['default_seats']){
+		$msg->addError('DISABLE_CREATE');
+		$error = "1";
+	}
+	if($_POST['default_seats']){
+		$default_seats = intval($_POST['default_seats']);
+		//echo $default_seats;
+		if($default_seats == '0'){
+			$msg->addError('SEATS_MUST_BE_NUMBER');
+			$error = "1";	
+		}	
+	}
+	
 	if(!isset($error)){
 		unset($error);
 		
@@ -84,9 +96,6 @@ if($_POST['save']){
 			if($default_seats != ''){
 				$sql = "REPLACE into ".TABLE_PREFIX."config (`name`, `value`) VALUES ('default_seats', $default_seats)";
 				$result = mysql_query($sql,$db);
-			}else{
-				$msg->addError('SEATS_MUST_BE_NUMBER');
-				$error = "1";
 			}
 		} else {
 			if($_config['default_seats']){
@@ -111,8 +120,8 @@ if($_POST['save']){
 	
 		if(!$error){
 			$msg->addFeedback('ACTION_COMPLETED_SUCCESSFULLY');
-			//header("Location:".$_base_href."mods/course_seats/index_admin.php");
-			//exit;
+			header("Location:".$_base_href."mods/course_seats/seats_config.php");
+			exit;
 		}
 	}
 	
@@ -162,6 +171,10 @@ require (AT_INCLUDE_PATH.'header.inc.php');
 			<?php
 			if(!isset($service_site)){ 
 			?>
+			<p><?php echo _AT('seats_howto_config_create'); ?></p><p><br /></p>
+			<label for="disable_create"><?php echo _AT('seats_disable_create'); ?></label>
+			<input type="checkbox" value="1" name="disable_create" id="disable_create" <?php echo $checkeddc; ?>  /><br />
+				
 			<script type="text/javascript">
 				jQuery(document).ready(function($) {
 					$("#disable_create").change(function() {
@@ -174,9 +187,6 @@ require (AT_INCLUDE_PATH.'header.inc.php');
 					});
 				});
 			</script>
-			<p><?php echo _AT('seats_howto_config_create'); ?></p><p><br /></p>
-			<label for="disable_create"><?php echo _AT('seats_disable_create'); ?></label>
-			<input type="checkbox" value="1" name="disable_create" id="disable_create" <?php echo $checkeddc; ?>  /><br />
 			
 			<label for="default_seats"><?php echo _AT('seats_default_seats'); ?></label>
 			<input type="text" maxlength="4" size="4" value="<?php echo $_config['default_seats']; ?>" name="default_seats" id="default_seats" /><br />
