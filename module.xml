@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<module version="0.1"> 
+    <name lang="en">Course Seats</name> 
+    <description lang="en">This module allows administrators to set the maximum number of seats available in any given course. </description> 
+    <maintainers>
+        <maintainer> 
+            <name>ATutorSpace</name> 
+            <email>support@atutorspaces.com</email> 
+        </maintainer>
+    </maintainers> 
+    <url>https://atutorspaces.com</url> 
+    <license>BSD</license> 
+    <private>
+        <subsite></subsite>
+    </private>
+	<release> 
+        <version>0.1</version> 
+        <date>2013-15-01</date> 
+        <state>stable</state> 
+        <notes>Be sure to see the README file with this module for a description of features, and what gets disable so course seat limits can be enforced. 	</notes> 
+    </release> 
+</module>
