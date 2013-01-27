@@ -21,6 +21,11 @@ if($_POST['cancel']){
 			header("Location:".$_base_href."mods/course_seats/index_admin.php");
 			exit;
 }
+if($_POST['return']){
+			header("Location:".$_base_href."mods/course_seats/index_admin.php");
+			exit;
+}
+
 
 
 if($_POST['save']){
@@ -38,7 +43,7 @@ if($_POST['save']){
 			$msg->addError('SEATS_MUST_ENABLE_ALLOW');
 			$error = "1";
 		}
-		if($seat_price == 0 || $seat_price == ''){
+		if($seat_price == 0 || $seat_price == "0.00" ||$seat_price == ''){
 			$msg->addError('SEATS_MUST_BE_NUMBER');
 			$error = "1";		
 		}
@@ -106,8 +111,8 @@ if($_POST['save']){
 	
 		if(!$error){
 			$msg->addFeedback('ACTION_COMPLETED_SUCCESSFULLY');
-			header("Location:".$_base_href."mods/course_seats/index_admin.php");
-			exit;
+			//header("Location:".$_base_href."mods/course_seats/index_admin.php");
+			//exit;
 		}
 	}
 	
@@ -199,6 +204,7 @@ require (AT_INCLUDE_PATH.'header.inc.php');
 			<br /><br />
 			<input type="submit" value="<?php echo _AT('save'); ?>" name="save" class="button">
 			<input type="submit" value="<?php echo _AT('cancel'); ?>" name="cancel" class="button">
+			<input type="submit" value="<?php echo _AT('return'); ?>" name="return" class="button">
 		</form>
 	</fieldset>
 </div>
