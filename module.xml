@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?> 
 <module version="0.1"> 
     <name lang="en">Course Seats</name> 
-    <description lang="en">This module allows administrators to set the maximum number of seats available in any given course. </description> 
+    <description lang="en">This module allows administrators to set the maximum number of seats available in any given course. Course Seats can be extended with the Payments (1.6+) module to automate purchase of additional seats on a course by course basis.</description> 
     <maintainers>
         <maintainer> 
             <name>ATutorSpace</name> 
