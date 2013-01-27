@@ -18,5 +18,5 @@ When the Payments module is installed, additional options are available to set t
 
 Issues
 ======
-Adding from the "Not Enrolled" list in the Enrollment Manager not possible currently without core code adjustments, beyond the scope of this version of the module.
+Adding from the "Not Enrolled" list in the Enrollment Manager not possible currently without core code adjustments, beyond the scope of this version of the module. Redirecting to the disabled.php file works well enough for now.
 
