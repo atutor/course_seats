@@ -36,7 +36,8 @@ if(isset($_POST['seats'])){
 }
 if(!$_POST['course_id']){
 		$msg->addError('NO_COURSE_SELECTED');
-		$error = "1";
+		header("Location:".$_base_href."mods/course_seats/index_admin.php");
+		exit;
 }
 if(isset($seats) && $seats != 0){
 	$sql = "REPLACE into ".TABLE_PREFIX."course_seats (`course_id`, `seats`) VALUES ('$course_id', '$seats')";

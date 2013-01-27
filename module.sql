@@ -39,7 +39,10 @@ INSERT INTO `language_text` VALUES ('en', '_msgs','AT_FEEDBACK_TAB_DISABLED','Th
 INSERT INTO `language_text` VALUES ('en', '_msgs','AT_ERROR_ENROLL_TOO_MANY','Too many being enrolled. You have %s seats available.',NOW(),'');
 INSERT INTO `language_text` VALUES ('en', '_msgs','AT_FEEDBACK_SEATS_UPDATED','Course seat limit updated for <strong>%s</strong>.',NOW(),'');
 INSERT INTO `language_text` VALUES ('en', '_msgs','AT_FEEDBACK_SEATS_REMOVED','Course seat limit removed for <strong>%s</strong>.',NOW(),'');
-INSERT INTO `language_text` VALUES ('en', '_msgs','AT_FEEDBACK_JUST_NUMBERS','Maximum enrolment must be a number. Try again.',NOW(),'');
+INSERT INTO `language_text` VALUES ('en', '_msgs','AT_ERROR_JUST_NUMBERS','Maximum enrolment must be a number. Try again.',NOW(),'');
 INSERT INTO `language_text` VALUES ('en', '_msgs','AT_FEEDBACK_SEATS_AVAILABLE','Seats available for this course (<strong>%s</strong>).',NOW(),'');
 INSERT INTO `language_text` VALUES ('en', '_msgs','AT_ERROR_SEATS_MUST_ENABLE_ALLOW','You must check <strong>Allow instructors to purchase more seats</strong>',NOW(),'');
-INSERT INTO `language_text` VALUES ('en', '_msgs','AT_ERROR_SEATS_MUST_BE_NUMBER','You must specify the number of seats.</strong>',NOW(),'');
+INSERT INTO `language_text` VALUES ('en', '_msgs','AT_ERROR_SEATS_MUST_BE_NUMBER','You must specify the number of seats.',NOW(),'');
+INSERT INTO `language_text` VALUES ('en', '_msgs','AT_ERROR_NO_COURSE_SELECTED','No course was selected.',NOW(),'');
+
+
