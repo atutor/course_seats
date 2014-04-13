@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?> 
 <module version="0.1"> 
     <name lang="en">Course Seats</name> 
-    <description lang="en">This module allows administrators to set the maximum number of seats available in any given course. Course Seats can be extended with the Payments (1.6+) module to automate purchase of additional seats on a course by course basis.</description> 
+    <description lang="en">Intended for use with ATutor 2.2+. This module allows administrators to set the maximum number of seats available in any given course. Course Seats can be extended with the Payments (1.6+) module to automate purchase of additional seats on a course by course basis.</description> 
     <maintainers>
         <maintainer> 
             <name>ATutorSpace</name> 
@@ -10,12 +10,10 @@
     </maintainers> 
     <url>https://atutorspaces.com</url> 
     <license>BSD</license> 
-    <private>
-        <subsite></subsite>
-    </private>
+
 	<release> 
-        <version>0.1</version> 
-        <date>2013-15-01</date> 
+        <version>0.2</version> 
+        <date>2014-15-04</date> 
         <state>stable</state> 
         <notes>Be sure to see the README file with this module for a description of features, and what gets disable so course seat limits can be enforced. 	</notes> 
     </release> 

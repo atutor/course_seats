@@ -8,7 +8,8 @@ CREATE TABLE `course_seats` (
 
 
 # Disable Create courses when course limits mod is installed
-INSERT INTO `config` VALUES ('disable_create','1');
+# Check in module.php if
+REPLACE INTO `config` VALUES ('disable_create','1');
 
 # module UI language
 INSERT INTO `language_text` VALUES ('en', '_module','course_seats','Course Seats',NOW(),'');
@@ -28,8 +29,6 @@ INSERT INTO `language_text` VALUES ('en', '_module','seats_howto_config_create',
 INSERT INTO `language_text` VALUES ('en', '_module','seats_disable_create','Disable Create Course ',NOW(),'');
 INSERT INTO `language_text` VALUES ('en', '_module','seats_default_seats','Default number of seats for new courses ',NOW(),'');
 INSERT INTO `language_text` VALUES ('en', '_module','seats_payments_install','Course Seats configuration options are set here when the Payments module is installed, setting options to allow instructors to purchase additional seats for a course, and setting the default number of seats when new courses are created.',NOW(),'');
-INSERT INTO `language_text` VALUES ('en', '_module','seats_howto_config_create','By default "Create Course" is disabled for instructors when the "Course Seats" module is installed. You may enable course creation for instructors and set the default number of seats available in a newly created course. Uncheck "Disable Create Course" then set the "Default number of seats for new courses."
-',NOW(),'');
 
 # module feedback
 INSERT INTO `language_text` VALUES ('en', '_msgs','AT_FEEDBACK_ENROLL_LIMIT','Enrollment limit for this course has been reached. Contact the site administrator to have that limit increased.',NOW(),'');

@@ -8,9 +8,8 @@
 
 function course_seats_delete($course) {
 	global $db;
-	// delete hello_world course table entries
-	$sql = "DELETE FROM ".TABLE_PREFIX."course_seats WHERE course_id=$course";
-	mysql_query($sql, $db);
+	$sql = "DELETE FROM %scourse_seats WHERE course_id=%d";
+	queryDB($sql, array(TABLE_PREFIX, $course));
 }
 
 ?>

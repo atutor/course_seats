@@ -29,11 +29,9 @@ if($_POST['return']){
 
 
 if($_POST['save']){
-	//$disable_create = intval($_POST['diable_create']);
-	//$default_seats = intval($_POST['default_seats']);
 	$seats_allow = intval($_POST['seats_allow']);
 	$seat_price = number_format($_POST['seat_price'],2);
-	
+
 	
 	if($seats_allow == "0" && $seat_price =="0.00"){
 	//
@@ -48,13 +46,12 @@ if($_POST['save']){
 			$error = "1";		
 		}
 	}
-	if($_POST['disable_create'] &&  $_POST['default_seats']){
+	if($_POST['disable_create'] == 1 &&  $_POST['default_seats'] ){
 		$msg->addError('DISABLE_CREATE');
 		$error = "1";
 	}
 	if($_POST['default_seats']){
 		$default_seats = intval($_POST['default_seats']);
-		//echo $default_seats;
 		if($default_seats == '0'){
 			$msg->addError('SEATS_MUST_BE_NUMBER');
 			$error = "1";	
@@ -65,56 +62,69 @@ if($_POST['save']){
 		unset($error);
 		
 		if($_POST['seats_allow']){
-			$sql = "REPLACE into ".TABLE_PREFIX."config (`name`, `value`) VALUES('seats_allow','$seats_allow')";
-			if(!$result = mysql_query($sql,$db)){
+
+			$sql = "REPLACE into %sconfig (`name`, `value`) VALUES('seats_allow',%d)";
+			$result = queryDB($sql, array(TABLE_PREFIX, $seats_allow));
+
+			if($result == 0){
 				$msg->addError('SEATS_SAVE_FAILED');
 				$error=1;
 			}
 		}else{
 			if($_config['seats_allow']){
-			$sql = "DELETE from ".TABLE_PREFIX."config WHERE name='seats_allow'";
-			$result = mysql_query($sql,$db);
+
+			$sql = "DELETE from %sconfig WHERE name='seats_allow'";
+			$result = queryDB($sql, array(TABLE_PREFIX));
+			
 			}
 		}
 
 
-		if($_POST['seat_price']){
-			$sql = "REPLACE into ".TABLE_PREFIX."config (`name`, `value`) VALUES('seat_price','$seat_price')";
-			if(!$result = mysql_query($sql,$db)){
+		if($_POST['seat_price'] > 0){
+
+			$sql = "REPLACE into %sconfig (`name`, `value`) VALUES('seat_price','%s')";
+			$result = queryDB($sql, array(TABLE_PREFIX, $seat_price));
+
+			if($result == 0){
 				$msg->addError('SEATS_SAVE_FAILED');
 				$error=1;
 			}
 		} else {
 			if($_config['seat_price']){
-				$sql = "DELETE from ".TABLE_PREFIX."config WHERE name='seat_price'";
-				$result = mysql_query($sql,$db);
+
+				$sql = "DELETE from %sconfig WHERE name='seat_price'";
+				$result = queryDB($sql, array(TABLE_PREFIX));
 			}
 		}
 		
 		if($_POST['default_seats']){
 			$default_seats = intval($_POST['default_seats']);
 			if($default_seats != ''){
-				$sql = "REPLACE into ".TABLE_PREFIX."config (`name`, `value`) VALUES ('default_seats', $default_seats)";
-				$result = mysql_query($sql,$db);
+
+				$sql = "REPLACE into %sconfig (`name`, `value`) VALUES ('default_seats', %d)";
+				$result = queryDB($sql, array(TABLE_PREFIX, $default_seats));
 			}
 		} else {
 			if($_config['default_seats']){
-				$sql = "DELETE from ".TABLE_PREFIX."config WHERE name='default_seats'";
-				$result = mysql_query($sql,$db);
+
+				$sql = "DELETE from %sconfig WHERE name='default_seats'";
+				$result = queryDB($sql, array(TABLE_PREFIX));
 			}	
 	
 		}
 	
-		if($_POST['disable_create']){
+		if($_POST['disable_create'] > 0){
 			$disable_create = intval($_POST['disable_create']);
 			if($disable_create != ''){
-				$sql = "REPLACE into ".TABLE_PREFIX."config (`name`, `value`) VALUES ('disable_create', '$disable_create')";
-				$result = mysql_query($sql,$db);
+
+				$sql = "REPLACE into %sconfig (`name`, `value`) VALUES ('disable_create', %d)";
+				$result = queryDB($sql, array(TABLE_PREFIX, $disable_create));
 			}
 		} else {
 			if($_config['disable_create']){
-				$sql = "DELETE from ".TABLE_PREFIX."config WHERE name='disable_create'";
-				$result = mysql_query($sql,$db);
+
+				$sql = "DELETE from %sconfig WHERE name='disable_create'";
+				$result = queryDB($sql, array(TABLE_PREFIX));
 			}
 		}
 	
@@ -134,16 +144,19 @@ if(isset($_config['disable_create']) && $_config['disable_create'] == "1"){
 }
 
 
-$sql = "SELECT * FROM ".TABLE_PREFIX."modules WHERE dir_name ='_core/services'";
-$result = mysql_query($sql, $db);
-if(mysql_num_rows($result) != 0 ){
+$sql = "SELECT * FROM %smodules WHERE dir_name ='_core/services'";
+$result = queryDB($sql, array(TABLE_PREFIX));
+
+if(count($result) > 0){
 	//This is a Service site 
 	$service_site = 1;
 }
 
+
 $sql = "SELECT * FROM ".TABLE_PREFIX."modules WHERE dir_name ='payments' && status ='2'";
-$result = mysql_query($sql, $db);
-if(mysql_num_rows($result) != 0 ){
+$result = queryDB($sql, array(TABLE_PREFIX));
+
+if(count($result) > 0){
 	//This is a Service site 
 	$payment_site = 1;
 }

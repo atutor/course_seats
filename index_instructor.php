@@ -20,15 +20,19 @@ require (AT_INCLUDE_PATH.'header.inc.php');
 	<fieldset class="group_form">
 	<legend class="group_form"><?php echo _AT('seats_course_seats'); ?></legend>
 	<?php
-	$sql = "SELECT * from ".TABLE_PREFIX."course_seats WHERE course_id='$_SESSION[course_id]'";
-	$result = mysql_query($sql,$db);
-	$row = mysql_fetch_assoc($result);
+
+	$sql = "SELECT * from %scourse_seats WHERE course_id=%d";
+	$row = queryDB($sql, array(TABLE_PREFIX, $_SESSION['course_id']), TRUE);
 	$seats_available = $row['seats'];
 	
-	$sql = "SELECT member_id, COUNT(member_id) FROM ".TABLE_PREFIX."course_enrollment WHERE course_id = '$_SESSION[course_id]' GROUP BY member_id";
-	$result = mysql_query($sql,$db);
-	$row = mysql_fetch_row($result);
-	$seats_used = ($row[COUNT(member_id)]-1);
+	$sql = "SELECT member_id, COUNT(member_id) FROM %scourse_enrollment WHERE course_id = %d GROUP BY member_id";
+	$row = queryDB($sql, array(TABLE_PREFIX, $_SESSION['course_id']), TRUE);
+
+	if(count($row['COUNT(member_id)']) > 0){
+	    $seats_used = ($row['COUNT(member_id)']-1);
+	} else {
+	    $seats_used = "0";
+	}
 
 	?>
 	<p><?php echo _AT(array('seats_used_remaining',$seats_used, $seats_available)); ?>

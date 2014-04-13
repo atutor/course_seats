@@ -17,43 +17,51 @@ admin_authenticate(AT_ADMIN_PRIV_COURSE_SEATS);
 
 
 if(isset($_POST['seats_config'])){
-			header("Location:".$_base_href."mods/course_seats/seats_config.php");
+		header("Location:".$_base_href."mods/course_seats/seats_config.php");
 		exit;
 }
+if(isset($_POST['course_id'])){
+    $course_id = intval($_POST['course_id']);
 
-$course_id = intval($_POST['course_id']);
-$sql = "SELECT title from ".TABLE_PREFIX."courses WHERE course_id = '$course_id'";
-$course_title = mysql_fetch_assoc(mysql_query($sql,$db));
+    $sql = "SELECT title from %scourses WHERE course_id = %d";
+    $course_title = queryDB($sql, array(TABLE_PREFIX, $course_id), TRUE);
+    
+    if(isset($_POST['seats'])){
+        if(preg_match('/^[0-9]{1,}$/', $_POST['seats'])){
+            $seats = intval($_POST['seats']);
+        }else if( $_POST['seats'] == ''){
+            $msg->addError(array('JUST_NUMBERS', $course_title['title']));
+        }else{
+            $msg->addError(array('JUST_NUMBERS', $course_title['title']));
+        }
+    }
+    if(!$_POST['course_id']){
+            $msg->addError('NO_COURSE_SELECTED');
+            header("Location:".$_base_href."mods/course_seats/index_admin.php");
+            exit;
+    }
+}
+    if(isset($seats) && $seats != 0){
+    
+        $sql = "REPLACE into %scourse_seats (`course_id`, `seats`) VALUES (%d, %d)";
+        $result = queryDB($sql, array(TABLE_PREFIX, $course_id, $seats));
+        
+        if($result > 0){
+            $msg->addFeedback(array('SEATS_UPDATED', $course_title['title']));
+        }
+    }
 
-if(isset($_POST['seats'])){
-	if(preg_match('/^[0-9]{1,}$/', $_POST['seats'])){
-		$seats = intval($_POST['seats']);
-	}else if( $_POST['seats'] == ''){
-		$msg->addError(array('JUST_NUMBERS', $course_title['title']));
-	}else{
-		$msg->addError(array('JUST_NUMBERS', $course_title['title']));
-	}
-}
-if(!$_POST['course_id']){
-		$msg->addError('NO_COURSE_SELECTED');
-		header("Location:".$_base_href."mods/course_seats/index_admin.php");
-		exit;
-}
-if(isset($seats) && $seats != 0){
-	$sql = "REPLACE into ".TABLE_PREFIX."course_seats (`course_id`, `seats`) VALUES ('$course_id', '$seats')";
-	if($result = mysql_query($sql,$db)){
-		$msg->addFeedback(array('SEATS_UPDATED', $course_title['title']));
-	}
-}
+    if(isset($_POST['remove'])){
 
-if(isset($_POST['remove'])){
-	$sql = "DELETE from ".TABLE_PREFIX."course_seats WHERE course_id='$course_id'";
-	if($result = mysql_query($sql,$db) && $_POST['course_id']){
-		$msg->addFeedback(array('SEATS_REMOVED', $course_title['title']));
-	} else {
-		$msg->addError('NO_ACTION_SELECTED');
-	}
-}
+        $sql = "DELETE from %scourse_seats WHERE course_id=%d";
+        $result = queryDB($sql, array(TABLE_PREFIX, $course_id));
+        
+        if($result > 0){
+            $msg->addFeedback(array('SEATS_REMOVED', $course_title['title']));
+        } else {
+            $msg->addError('NO_ACTION_SELECTED');
+        }
+    }
 	
 require (AT_INCLUDE_PATH.'header.inc.php');
 
@@ -68,9 +76,11 @@ require (AT_INCLUDE_PATH.'header.inc.php');
 			<label for="course_name"><?php echo _AT('course'); ?></label>
 			<select name="course_id" id="course_name">
 			<?php
-				$sql = "SELECT title, course_id from ".TABLE_PREFIX."courses ORDER BY title ASC";
-				$result = mysql_query($sql,$db);
-				while($row = mysql_fetch_assoc($result)){
+
+				$sql = "SELECT title, course_id from %scourses ORDER BY title ASC";
+				$rows_courses = queryDB($sql, array(TABLE_PREFIX));
+
+				foreach($rows_courses as $row){
 					echo '<option value="'.$row['course_id'].'">'.$row['title'].'</option>'."\n";
 				}
 			?>
@@ -95,11 +105,11 @@ require (AT_INCLUDE_PATH.'header.inc.php');
 			</tr>
 		</thead>
 	<?php
-	$sql = "SELECT C.course_id, C.title, S.seats FROM ".TABLE_PREFIX."courses as C, ".TABLE_PREFIX."course_seats as S WHERE C.course_id = S.course_id";
-	$result = mysql_query($sql, $db);
 
-		if(mysql_num_rows($result) > 0){
-			while($row = mysql_fetch_assoc($result)){
+	$sql = "SELECT C.course_id, C.title, S.seats FROM %scourses as C, %scourse_seats as S WHERE C.course_id = S.course_id";
+	$rows_course_seats = queryDB($sql, array(TABLE_PREFIX, TABLE_PREFIX));
+	    if(count($rows_course_seats) > 0){
+		    foreach($rows_course_seats as $row){
 				$rowid++;
 				echo '<tr>
 						<td><input type="radio" name="course_id" value="'.$row['course_id'].'" id="seats'.$rowid.'"/></td>

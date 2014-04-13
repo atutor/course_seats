@@ -23,20 +23,25 @@ if (admin_authenticate(AT_ADMIN_PRIV_COURSE_SEATS, TRUE) || admin_authenticate(A
 	// replace the create course tab for admin, removed by "disable_create" config setting
 	// remove the following lines if installed on atsp
 	if($_config['disable_create'] == "1"){
-		$sql = "SELECT * FROM ".TABLE_PREFIX."modules WHERE dir_name ='_core/services' && status ='2'";
-		$result = mysql_query($sql, $db);
-		if(mysql_num_rows($result)){
+
+		$sql = "SELECT * FROM %smodules WHERE dir_name ='_core/services' && status ='2'";
+		$row_services = queryDB($sql, array(TABLE_PREFIX));
+
+		if(count($row_services) > 0){
 		    //This is a Service site 
 			$service_site = 1;
 		}
-		if($service_site){
-		// do something
+		if($service_site > 0){
+		    // do something
 		} else{
-		$this->_pages['mods/_core/courses/admin/create_course.php']['title_var'] = 'create_course';
-		$this->_pages['mods/_core/courses/admin/create_course.php']['parent']    = 'mods/_core/courses/admin/courses.php';
-		$this->_pages['mods/_core/courses/admin/create_course.php']['guide']     = 'admin/?p=creating_courses.php';	
-		$this->_pages['mods/_core/courses/admin/courses.php']['children']  = array('mods/_core/courses/admin/create_course.php');
+		    $this->_pages['mods/_core/courses/admin/create_course.php']['title_var'] = 'create_course';
+		    $this->_pages['mods/_core/courses/admin/create_course.php']['parent']    = 'mods/_core/courses/admin/courses.php';
+		    $this->_pages['mods/_core/courses/admin/create_course.php']['guide']     = 'admin/?p=creating_courses.php';	
+		    $this->_pages['mods/_core/courses/admin/courses.php']['children']  = array('mods/_core/courses/admin/create_course.php');
 		} 
+	} else {
+	    $sql = "REPLACE into %sconfig value('disable_create', '1')";
+		$result = queryDB($sql, array(TABLE_PREFIX));
 	}
 
 
@@ -61,10 +66,13 @@ $this->_pages['mods/course_seats/disabled.php']['parent']    = 'mods/_core/enrol
 /*******
 * instructor Manage section added if course seats is set for a course:
 */
-global $db, $_config;
-$sql = "SELECT * FROM ".TABLE_PREFIX."course_seats WHERE course_id = '$_SESSION[course_id]'";
-$result = @mysql_query($sql,$db);
-$row = @mysql_fetch_assoc($result);
+global $_config;
+
+if($_SESSION['course_id'] > 0){
+$sql = "SELECT * FROM %scourse_seats WHERE course_id = %d";
+$row = queryDB($sql, array(TABLE_PREFIX, $_SESSION['course_id']), TRUE);
+}
+
 
 if($row['seats'] >= "1" && isset($_config['seats_allow']) && $_config['seats_allow'] != 0){
 	$this->_pages['mods/course_seats/index_instructor.php']['title_var'] = 'course_seats';
@@ -75,13 +83,16 @@ if($row['seats'] >= "1" && isset($_config['seats_allow']) && $_config['seats_all
 // If a new course is being created and default seat limit is set
 // Set the max seats for that course to the default_seats value
 if($_config['default_seats'] && $_SESSION['course_id'] > 0){
-	$sql = "SELECT seats from ".TABLE_PREFIX."course_seats WHERE course_id ='$_SESSION[course_id]'";
-	$result = mysql_query($sql, $db);
-	if(mysql_num_rows($result) == 0){
-		$sql = "INSERT into ".TABLE_PREFIX."course_seats (`course_id`,`seats`) VALUES('$_SESSION[course_id]','$_config[default_seats]')";
-		$result = mysql_query($sql,$db);
+
+	$sql = "SELECT seats from %scourse_seats WHERE course_id = %d";
+	$rows_courses = queryDB($sql, array(TABLE_PREFIX, $_SESSION['course_id']));	
+
+	if(count($rows_courses) == 0){
+
+		$sql = "INSERT into %scourse_seats (`course_id`,`seats`) VALUES(%d,%d)";
+		$result = queryDB($sql, array(TABLE_PREFIX, $_SESSION['course_id'], $_config['default_seats']));
 	}
 }
 
-require(AT_INCLUDE_PATH.'../mods/course_seats/course_seats.php');
+//require(AT_INCLUDE_PATH.'../mods/course_seats/course_seats.php');
 ?>

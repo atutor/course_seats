@@ -13,13 +13,18 @@
 // $Id$
 if (!defined('AT_INCLUDE_PATH')) { exit; }
 
+// NOT IS USE
+exit;
 if(isset($_SESSION['course_id']) && isset($_SESSION['is_admin'])){
 	///////
 	// Get current course seat limit
-	$sql = "SELECT seats from ".TABLE_PREFIX."course_seats WHERE course_id ='$_SESSION[course_id]'";
+	//$sql = "SELECT seats from ".TABLE_PREFIX."course_seats WHERE course_id ='$_SESSION[course_id]'";
+	//global $db, $msg, $_base_href ;
+	//$result = mysql_query($sql,$db);
+	//$seatlimit = mysql_fetch_assoc($result);
+	$sql = "SELECT seats from %scourse_seats WHERE course_id =%d";
 	global $db, $msg, $_base_href ;
-	$result = mysql_query($sql,$db);
-	$seatlimit = mysql_fetch_assoc($result);
+	$seatlimit = queryDB($sql, array(TABLE_PREFIX, $_SESSION['course_id']), TRUE);
 
 	///////
 	// If a seat limit is set, then do something, otherwise ignore this module	
@@ -34,11 +39,15 @@ if(isset($_SESSION['course_id']) && isset($_SESSION['is_admin'])){
 		
 		//////
 		// Get current course number enrolled and calculate remaining seats
-		$sql ="SELECT course_id from ".TABLE_PREFIX."course_enrollment WHERE course_id = '$_SESSION[course_id]'";
-		$result = mysql_query($sql, $db);
-		$enrollcount = mysql_num_rows($result);
+		//$sql ="SELECT course_id from ".TABLE_PREFIX."course_enrollment WHERE course_id = '$_SESSION[course_id]'";
+		//$result = mysql_query($sql, $db);
+		//$enrollcount = mysql_num_rows($result);
+		$sql ="SELECT course_id from %scourse_enrollment WHERE course_id = %d";
+		$row = queryDB($sql, array(TABLE_PREFIX, $_SESSION['course_id']));
+		$enrollcount = count($row);
+		
 		$enrollcount = ($enrollcount-1); // remove instructor form the enrollment count
-		$row = mysql_fetch_array($result);
+		//$row = mysql_fetch_array($result);
 		$seats_remaining = ($seatlimit['seats']- $enrollcount);
 	
 	
