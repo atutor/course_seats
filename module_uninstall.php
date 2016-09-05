@@ -39,6 +39,9 @@ if (!$msg->containsErrors() && file_exists(dirname(__FILE__) . '/module.sql')) {
 	 * a convention we're using.
 	 */
 	$sqlUtility->revertQueryFromFile(dirname(__FILE__) . '/module.sql', TABLE_PREFIX);
+	if ($_SESSION['lang']=='fr' && file_exists(dirname(__FILE__) . '/module-fr.sql')) {
+		$sqlUtility->revertQueryFromFile(dirname(__FILE__) . '/module-fr.sql', TABLE_PREFIX);
+	}
 }
 
 ?>
