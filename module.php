@@ -38,8 +38,12 @@ if (admin_authenticate(AT_ADMIN_PRIV_COURSE_SEATS, TRUE) || admin_authenticate(A
 		    $this->_pages['mods/_core/courses/admin/create_course.php']['parent']    = 'mods/_core/courses/admin/courses.php';
 		    $this->_pages['mods/_core/courses/admin/create_course.php']['guide']     = 'admin/?p=creating_courses.php';	
 		    $this->_pages['mods/_core/courses/admin/courses.php']['children']  = array('mods/_core/courses/admin/create_course.php');
+		}
+		if(isset($_config['default_seats'])) {
+		    $sql = "DELETE from %sconfig WHERE name='default_seats'";
+		    $result = queryDB($sql, array(TABLE_PREFIX));
 		} 
-	} else {
+	} elseif(!isset($_config['default_seats'])) {
 	    $sql = "REPLACE into %sconfig value('disable_create', '1')";
 		$result = queryDB($sql, array(TABLE_PREFIX));
 	}
