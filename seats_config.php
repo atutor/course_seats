@@ -30,7 +30,7 @@ if($_POST['return']){
 
 if($_POST['save']){
 	$seats_allow = intval($_POST['seats_allow']);
-	$seat_price = number_format($_POST['seat_price'],2);
+	$seat_price = number_format(floatval($_POST['seat_price']),2);
 
 	
 	if($seats_allow == "0" && $seat_price =="0.00"){
@@ -170,12 +170,8 @@ require (AT_INCLUDE_PATH.'header.inc.php'); ?>
 		</form>
 	</fieldset>
 </div>
-<?php require (AT_INCLUDE_PATH.'footer.inc.php');
+<?php
 }
-require (AT_INCLUDE_PATH.'header.inc.php');
-
-
-
 ?>
 <div class="input-form">
 	<fieldset class="group_form">
