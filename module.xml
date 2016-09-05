@@ -12,8 +12,8 @@
     <license>BSD</license> 
 
 	<release> 
-        <version>0.2</version> 
-        <date>2014-15-04</date> 
+        <version>0.3</version> 
+        <date>2016-09-05</date> 
         <state>stable</state> 
         <notes>Be sure to see the README file with this module for a description of features, and what gets disable so course seat limits can be enforced. 	</notes> 
     </release> 
