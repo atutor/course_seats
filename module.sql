@@ -31,6 +31,7 @@ INSERT INTO `language_text` VALUES ('en', '_module','seats_default_seats','Defau
 INSERT INTO `language_text` VALUES ('en', '_module','seats_payments_install','Course Seats configuration options are set here when the Payments module is installed, setting options to allow instructors to purchase additional seats for a course, and setting the default number of seats when new courses are created.',NOW(),'');
 
 # module feedback
+INSERT INTO `language_text` VALUES ('en', '_msgs','AT_ERROR_DISABLE_CREATE','Do not set the default number of seats available in a course when it is impossible for the trainers to create courses.',NOW(),'');
 INSERT INTO `language_text` VALUES ('en', '_msgs','AT_FEEDBACK_ENROLL_LIMIT','Enrollment limit for this course has been reached. Contact the site administrator to have that limit increased.',NOW(),'');
 INSERT INTO `language_text` VALUES ('en', '_msgs','AT_FEEDBACK_IMPORT_DISABLED','Import course list is disabled. Seat limit reached.',NOW(),'');
 INSERT INTO `language_text` VALUES ('en', '_msgs','AT_FEEDBACK_CREATE_LIST_DISABLED','Create course list is disabled. Seat limit reached.',NOW(),'');
